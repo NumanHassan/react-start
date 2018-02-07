@@ -5,18 +5,22 @@ import {bindActionCreators} from 'redux';
 
 class CoursesPage extends React.Component {
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
+    this.state = {
+      course: " English"
+
+    };
   }
 
   render() {
-    debugger;
+
     return (
       <div className="jumbotron">
-        <h1>Courses</h1>
-        {this.props.courses}
-        /*<h2>Add Course</h2>
-        <input type="text" onChange={this.onTitleChange} value={this.state.course.title}/>
-        <input type="submit" onClick={this.onClickSave} value="save"/>*/
+        <h1>Courses </h1>
+
+        <p>{ this.state.course}</p>
+
+
       </div>
     );
   }
@@ -28,7 +32,7 @@ CoursesPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  debugger;
+
   return {
     courses: state.courses
   };
@@ -39,3 +43,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
+

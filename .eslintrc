@@ -5,7 +5,10 @@
     "plugin:import/warnings"
   ],
   "plugins": [
-    "react"
+    "babel",
+    "react",
+    "promise"
+
   ],
   "parserOptions": {
     "ecmaVersion": 6,
