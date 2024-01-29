@@ -1,14 +1,14 @@
 ---
-name: "🐛 Bug Report"
-about: Report a reproducible bug or regression.
-title: 'Bug: '
-labels: 'Status: bug'
+name: "🌟 Enhancement Request"
+about: Request an enhancement
+title: 'Enhancement: '
+labels: 'Status: enhancement'
 assignees: ''
 
 ---
 
 <!--
-  Please provide a clear and concise description of what the bug is. Include
+  Please provide a clear and concise description of what the enhancement is. Include
   screenshots if needed. Please test using the latest version of the relevant branch i.e develop or main.
 -->
 
