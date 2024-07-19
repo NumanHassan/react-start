@@ -1,0 +1,41 @@
+name: Label PRs with Approvals
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  label:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Set up tools on Ubuntu and MacOS
+        if: runner.os != 'Windows'
+        run: |
+          sudo apt-get update || true
+          sudo apt-get install -y jq || true
+          brew install jq || true
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt-get install gh
+      - name: Set up tools on Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install jq
+          choco install gh
+      - name: Check PR approvals
+        id: check
+        run: |
+          approvals=$(gh api repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/reviews | jq '[.[] | select(.state == "APPROVED")] | length')
+          echo "approvals=$approvals" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Label PR if approvals >= 2
+        if: env.approvals >= 2
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} --add-label "2+ Approvals"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
